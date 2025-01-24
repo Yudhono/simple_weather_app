@@ -48,3 +48,24 @@ button:hover {
 #weatherResult {
   margin-top: 20px;
 }
+
+#forecastResult {
+  margin-top: 20px;
+}
+
+.forecast-day {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.forecast-day:last-child {
+  border-bottom: none;
+}
+
+.forecast-day img {
+  width: 40px;
+  height: 40px;
+}

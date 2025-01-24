@@ -5,9 +5,11 @@ document
     const city = document.getElementById("cityInput").value;
     const apiKey = "2177e20fe8b4492dabc03628251801"; // Replace with your WeatherAPI key
     const apiUrl = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=no`;
+    const forecastUrl = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=3&aqi=no&alerts=no`;
 
     // Display loading message
     document.getElementById("weatherResult").innerHTML = "<p>Loading...</p>";
+    document.getElementById("forecastResult").innerHTML = "";
 
     fetch(apiUrl)
       .then((response) => response.json())
@@ -32,5 +34,28 @@ document
         document.getElementById(
           "weatherResult"
         ).innerHTML = `<p>Error fetching data</p>`;
+      });
+
+    fetch(forecastUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.forecast) {
+          let forecastData = "<h3>3-Day Forecast</h3>";
+          data.forecast.forecastday.forEach((day) => {
+            forecastData += `
+              <div class="forecast-day">
+                <div>${day.date}</div>
+                <div>${day.day.avgtemp_c} °C</div>
+                <div><img src="${day.day.condition.icon}" alt="${day.day.condition.text}"></div>
+              </div>
+            `;
+          });
+          document.getElementById("forecastResult").innerHTML = forecastData;
+        }
+      })
+      .catch((error) => {
+        document.getElementById(
+          "forecastResult"
+        ).innerHTML = `<p>Error fetching forecast data</p>`;
       });
   });
